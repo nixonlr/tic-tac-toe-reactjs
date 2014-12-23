@@ -9,8 +9,6 @@ var ReactTransitionGroup = React.addons.TransitionGroup;
 var Game = require('../game');
 var Board = require('./board');
 
-console.log(Game.constructor);
-console.log(Game);
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
 

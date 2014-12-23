@@ -9,5 +9,4 @@ Instructions
 - clone the repo
 - run npm install && grunt serve
 
-**Note**
-This is a work in progress. I'm currently fixing the play again feature
+**Note:** This is a work in progress. I'm currently fixing the play again feature. Thereafter, I'll make game harder to beat. 
