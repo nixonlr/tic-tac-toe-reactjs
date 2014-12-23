@@ -26,7 +26,6 @@ var TicTacToeApp = React.createClass({
     return (
       <div className='main'>
         <ReactTransitionGroup transitionName="fade">
-          <img src={imageURL}/>
           <Board game={Game}/>
         </ReactTransitionGroup>
       </div>
