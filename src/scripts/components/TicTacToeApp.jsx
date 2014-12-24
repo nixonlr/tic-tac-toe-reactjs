@@ -30,6 +30,6 @@ var TicTacToeApp = React.createClass({
     );
   }
 });
-React.renderComponent(<TicTacToeApp />, document.getElementById('content')); // jshint ignore:line
+React.renderComponent(<TicTacToeApp />, document.getElementById('subContent')); // jshint ignore:line
 
 module.exports = TicTacToeApp;
