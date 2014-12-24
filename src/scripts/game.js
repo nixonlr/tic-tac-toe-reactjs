@@ -66,6 +66,7 @@ var Game = function() {
 	this.restart = function(){
 		this.canvas.board = [[null, null, null],[null, null, null],[null, null, null]];
 		this.winner = "No One";
+		this.emptyCells = [];
 	}
 	
 	this.emptyCells = [];
@@ -103,12 +104,12 @@ var Game = function() {
   this.computerMarkBoard = function(){
   	var emptyCells = this.emptyCells
   	var id = emptyCells[Math.floor(Math.random() * emptyCells.length)]
-
+  	console.log(id);
   	if(id == undefined){
   		return false
   	} 
-  	var index = emptyCells.indexOf(id);
   	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
+  	var index = emptyCells.indexOf(id);
 
   	this.canvas.board[cell.row][cell.column] = "O";
   	this.emptyCells.splice(index, 1);
