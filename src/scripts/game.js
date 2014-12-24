@@ -104,7 +104,6 @@ var Game = function() {
   this.computerMarkBoard = function(){
   	var emptyCells = this.emptyCells
   	var id = emptyCells[Math.floor(Math.random() * emptyCells.length)]
-  	console.log(id);
   	if(id == undefined){
   		return false
   	} 
