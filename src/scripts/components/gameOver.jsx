@@ -14,8 +14,8 @@ var GameOver = React.createClass({
 	render: function() {
 		return(
 			<div className='container' id="gameOver">
-				<Winner winner={this.props.game.winner}/>
-				<Restart game={this.props.game}/>
+				<Winner winner={this.props.gameInfo.game.winner}/>
+				<Restart gameInfo={this.props.gameInfo}/>
 			</div>
 		);
 	}

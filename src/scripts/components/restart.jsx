@@ -7,9 +7,9 @@ var Board = require('./board');
 
 var Restart = React.createClass({
 	restartHandler: function(){
-		this.props.game.restart();
+		this.props.gameInfo.game.restart();
 		React.unmountComponentAtNode(document.getElementById("content"));
-		React.renderComponent(<Board game={this.props.game}/>, document.getElementById('content'));
+		React.renderComponent(<this.props.gameInfo.board game={this.props.gameInfo.game}/>, document.getElementById('content'));
 	},
 
 	render: function() {

@@ -107,8 +107,8 @@ var Game = function() {
   	if(id == undefined){
   		return false
   	} 
-  	var index = emptyCells.indexOf(id);
   	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
+  	var index = emptyCells.indexOf(id);
 
   	this.canvas.board[cell.row][cell.column] = "O";
   	this.emptyCells.splice(index, 1);

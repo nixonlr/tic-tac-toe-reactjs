@@ -24,7 +24,7 @@ var Board = React.createClass({
 			
 			if (outcome.gameOver){
 				React.unmountComponentAtNode(document.getElementById("content"));
-				React.renderComponent(<GameOver game={this.props.game} />, document.getElementById('content'));
+				React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('content'));
 			} else {
 				if (outcome.playerId){
 					React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
