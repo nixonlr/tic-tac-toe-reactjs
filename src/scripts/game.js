@@ -66,6 +66,7 @@ var Game = function() {
 	this.restart = function(){
 		this.canvas.board = [[null, null, null],[null, null, null],[null, null, null]];
 		this.winner = "No One";
+		this.emptyCells = [];
 	}
 	
 	this.emptyCells = [];
@@ -103,7 +104,7 @@ var Game = function() {
   this.computerMarkBoard = function(){
   	var emptyCells = this.emptyCells
   	var id = emptyCells[Math.floor(Math.random() * emptyCells.length)]
-
+  	console.log(id);
   	if(id == undefined){
   		return false
   	} 
