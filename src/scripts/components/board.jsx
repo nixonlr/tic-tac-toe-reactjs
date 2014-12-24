@@ -5,6 +5,7 @@ var React = require('react/addons');
 var GameOver = require('./gameOver');
 var Mark = require('./mark');
 
+
 var Board = React.createClass({
 	started: false,
 
@@ -22,7 +23,7 @@ var Board = React.createClass({
 			this.props.game.printBoard();
 			
 			if (outcome.gameOver){
-				React.renderComponent(<GameOver game={this.props.game} />, document.getElementById('mainContainer'));
+				React.renderComponent(<GameOver game={this.props.game} />, document.getElementById('content'));
 			} else {
 				if (outcome.playerId){
 					React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
