@@ -23,6 +23,7 @@ var Board = React.createClass({
 			this.props.game.printBoard();
 			
 			if (outcome.gameOver){
+				React.unmountComponentAtNode(document.getElementById("content"));
 				React.renderComponent(<GameOver game={this.props.game} />, document.getElementById('content'));
 			} else {
 				if (outcome.playerId){
