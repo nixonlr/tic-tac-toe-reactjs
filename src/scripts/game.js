@@ -114,6 +114,30 @@ var Game = function() {
   	this.emptyCells.splice(index, 1);
   	return id
   }
+
+  this.count = function(array, target){
+  	var i=0, l = array.length, count = 0, index = []
+
+  	for (var i = 0; i < l; i++) {
+  		if(array[i] == target){
+  			count++
+  		}
+  	}
+  	
+  }
+
+  this.stompPlayer = function(){
+  	if (this.canvas.diagnolUp().toString() == string){
+
+  	} else if(this.canvas.diagnolDown().toString() == string){
+
+  	}else if(this.canvas.row(i).toString() == string){
+
+  	}else if(this.canvas.column(i).toString() == string){
+
+  	}
+
+  }
 }
 
 game = new Game
