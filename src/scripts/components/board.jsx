@@ -13,7 +13,8 @@ var Board = React.createClass({
 		event.target.style.display = "none";
 		this.props.game.startGame();
 		if (this.pcStarts()){
-
+			var id = this.props.game.pcStartId();
+			React.renderComponent(<Mark mark="O"/>, document.getElementById(id));
 		}
 		this.started = true;
 	},

@@ -75,6 +75,12 @@ var Game = function() {
 		this.getIdsOfEmptyCells();
 	}
 
+	this.pcStartId = function() {
+		var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)], index = emptyCells.indexOf(id);
+		this.emptyCells.splice(index, 1);
+		return id
+	}
+
 	this.getIdsOfEmptyCells = function(){
 		var r = 0, board = this.canvas.board, l = board.length;
 
