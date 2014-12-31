@@ -1,6 +1,8 @@
 var Game = function() {
 	this.canvas = {
-		board: [["X", null, null],["X", null, null],["X", null, "X"]],
+		board: [["X", null, "X"],
+						["O", null, null],
+						["X", null, "O"]],
 			
 		column: function(columNumber){
 			var col = [], i = 0, board = this.board, l = board.length;
@@ -13,7 +15,7 @@ var Game = function() {
 		row: function(rowNumber){
 			return this.board[rowNumber];
 		},
-		
+
 		diagnol1: function(){
 			var diagD = [], i = 0, board = this.board, l = board.length;
 			for ( i ; i < l; i++){
@@ -39,15 +41,15 @@ var Game = function() {
 		},
 
 		rows: function(){
-			return this.board
+			return this.board;
 		},
 
 		diagnols: function(){
-			return [this.diagnol1(), this.diagnol2()]
+			return [this.diagnol1(), this.diagnol2()];
 		},
 
 		all: function(){
-			var all = [], rows = this.rows(), columns = this.columns(), diagnols = this.diagnols() ;
+			var all = [], rows = this.rows(), columns = this.columns(), diagnols = this.diagnols();
 
 			rows.forEach(function(row){
 				all.push(row);
@@ -61,55 +63,19 @@ var Game = function() {
 				all.push(diagnol);
 			});
 
-			return all
+			return all;
 		}
 	}
 	
 	this.winner = "No One";
-
-	this.printBoard = function(){
-		var i = 0, board = this.canvas.board;
-		for ( i ; i < board.length; i++){
-			console.log(board[i]);
-		}
-	}
-
-	this.checkBoardForWinner = function(string, i){
-		if (this.canvas.diagnol2().toString() == string ||
-				this.canvas.diagnol1().toString() == string ||
-				this.canvas.row(i).toString() == string || 
-				this.canvas.column(i).toString() == string){
-			this.winner = string[0];
-			return true;
-		}
-	}
-	this.gameOver = function(){
-		var i = 0, board = this.canvas.board, l = board.length, stringX = "X,X,X", stringO = "O,O,O";
-		for ( i ; i < l ; i++){
-			if (this.checkBoardForWinner(stringX, i) || this.checkBoardForWinner(stringO, i)){
-				return true;
-			}
-		}
-		
-		if (this.emptyCells.length == 0){
-			return true
-		}
-		return false;
-	}
-	
-	this.restart = function(){
-		this.canvas.board = [[null, null, null],[null, null, null],[null, null, null]];
-		this.winner = "No One";
-		this.emptyCells = [];
-	}
 	
 	this.emptyCells = [];
 
 	this.startGame = function(){
-		this.findEmptyCells();
+		this.getIdsOfEmptyCells();
 	}
 
-	this.findEmptyCells = function(){
+	this.getIdsOfEmptyCells = function(){
 		var r = 0, board = this.canvas.board, l = board.length;
 
 		for(r; r<l; r++){
@@ -122,6 +88,36 @@ var Game = function() {
 		}
 	}
 
+	this.gameOver = function(){
+		var i = 0, board = this.canvas.board, l = board.length, stringX = "X,X,X", stringO = "O,O,O";
+		for ( i ; i < l ; i++){
+			if (this.checkBoardForWinner(stringX, i) || this.checkBoardForWinner(stringO, i)){
+				return true;
+			}
+		}
+		
+		if (this.emptyCells.length == 0){
+			return true;
+		}
+		return false;
+	}
+	
+	this.checkBoardForWinner = function(string, i){
+		if (this.canvas.diagnol2().toString() == string ||
+				this.canvas.diagnol1().toString() == string ||
+				this.canvas.row(i).toString() == string || 
+				this.canvas.column(i).toString() == string){
+			this.winner = string[0];
+			return true;
+		}
+	}
+	
+	this.restart = function(){
+		this.canvas.board = [[null, null, null],[null, null, null],[null, null, null]];
+		this.winner = "No One";
+		this.emptyCells = [];
+	}
+	
   this.markBoard = function(id, mark){
   	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}, emptyCells = this.emptyCells, index = emptyCells.indexOf(id), validMark = id;
 
@@ -138,14 +134,31 @@ var Game = function() {
   this.computerMarkBoard = function(){
   	var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   	if(id == undefined){
-  		return false
+  		return false;
   	} 
   	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
   	var index = emptyCells.indexOf(id);
 
   	this.canvas.board[cell.row][cell.column] = "O";
   	this.emptyCells.splice(index, 1);
-  	return id
+  	return id;
+  }
+
+  this.pcIdsToPick = function(){
+		var board = this.board, emptyCells = this.emptyCells;
+
+		return emptyCells.filter(function(id){
+
+			var rowInfo = this.pathInfo(this.canvas.row(id[0]));
+			var colInfo = this.pathInfo(this.canvas.column(id[1]));
+
+			if ((rowInfo.x.count == 2 && rowInfo.n.indices.length == 1) || 
+					(colInfo.x.count == 2 && colInfo.n.indices.length == 1) ||
+					this.checkDiagnols(id)){
+  			return id;
+  		}
+
+		}.bind(this));
   }
 
   this.pathInfo = function(path){
@@ -162,35 +175,44 @@ var Game = function() {
   			info.n.count++;
   		}
   	}
-  	return info
+  	return info;
   }
-
-  this.pathsWorthBlocking = function(){
-  	return this.canvas.all().filter(function(path){
-  		var pathInfo = this.pathInfo(path)
-  		if (pathInfo.x.count == 2 && pathInfo.n.indices.length == 1){
-  			return path	
-  		}
-  	}.bind(this));
-  }
-
-  this.stompPlayer = function(){
-  	if (this.count(this.canvas.diagnol2()) == string){
-
-  	} else if(this.canvas.diagnol1().toString() == string){
-
-  	}else if(this.canvas.row(i).toString() == string){
-
-  	}else if(this.canvas.column(i).toString() == string){
-
+  
+  this.checkDiagnols = function(id){
+  	if (id == "00" || id == "22"){
+  		var diagnol1Info = this.pathInfo(this.canvas.diagnol1());
+  		return (diagnol1Info.x.count == 2 && diagnol1Info.n.indices.length == 1);
+  	} else if(id == "02" || id == "20"){
+  		var diagnol2Info = this.pathInfo(this.canvas.diagnol2());
+  		return (diagnol2Info.x.count == 2 && diagnol2Info.n.indices.length == 1);
+  	} else if(id == "11"){
+  		var diagnol1Info = this.pathInfo(this.canvas.diagnol1());
+			var diagnol2Info = this.pathInfo(this.canvas.diagnol2());
+			return (diagnol1Info.x.count == 2 && diagnol1Info.n.indices.length == 1) || 
+						 (diagnol2Info.x.count == 2 && diagnol2Info.n.indices.length == 1);
   	}
-
   }
+
+
+  // this.pathsWorthBlocking = function(){
+  // 	return this.canvas.all().filter(function(path){
+  // 		var pathInfo = this.pathInfo(path)
+  // 		if (pathInfo.x.count == 2 && pathInfo.n.indices.length == 1){
+  // 			return path	
+  // 		}
+  // 	}.bind(this));
+  // }
+	this.printBoard = function(){
+		var i = 0, board = this.canvas.board;
+		for ( i ; i < board.length; i++){
+			console.log(board[i]);
+		}
+	}
 }
 
 game = new Game;
 game.printBoard();
-console.log(game.pathsWorthBlocking());
-// console.log(game.pathsWorthBlocking());
+game.startGame();
+console.log(game.pcIdsToPick());
 
 module.exports = game
