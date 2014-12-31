@@ -68,6 +68,12 @@ var Game = function() {
 		this.winner = "No One";
 		this.emptyCells = [];
 	}
+
+	this.pcStartId = function() {
+		var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)], index = emptyCells.indexOf(id);
+		this.emptyCells.splice(index, 1);
+		return id
+	}
 	
 	this.emptyCells = [];
 
@@ -97,8 +103,9 @@ var Game = function() {
 		} else{
 			var validMark = false;
 		}
-		
-  	return {pcId: this.computerMarkBoard(), playerId: validMark};
+		if(validMark){
+	  	return {pcId: this.computerMarkBoard(), playerId: validMark};
+		}
   }
 
   this.computerMarkBoard = function(){
