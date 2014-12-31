@@ -202,15 +202,6 @@ var Game = function() {
   	}
   }
 
-
-  // this.pathsWorthBlocking = function(){
-  // 	return this.canvas.all().filter(function(path){
-  // 		var pathInfo = this.pathInfo(path)
-  // 		if (pathInfo.x.count == 2 && pathInfo.n.indices.length == 1){
-  // 			return path	
-  // 		}
-  // 	}.bind(this));
-  // }
 	this.printBoard = function(){
 		var i = 0, board = this.canvas.board;
 		for ( i ; i < board.length; i++){
