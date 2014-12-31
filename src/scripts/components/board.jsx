@@ -12,8 +12,15 @@ var Board = React.createClass({
 	startGame: function(event){
 		event.target.style.display = "none";
 		this.props.game.startGame();
+		if (this.pcStarts()){
+
+		}
 		this.started = true;
 	},
+
+	pcStarts: function(){
+		return (Math.floor(Math.random() * 2) == 1;
+	}
 
 	handleClick: function(event){
 		if (this.started){
