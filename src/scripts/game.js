@@ -1,6 +1,6 @@
 var Game = function() {
 	this.canvas = {
-		board: [[null, null, null],[null, null, null],[null, null, null]],
+		board: [["X", null, null],["X", null, null],["X", null, "X"]],
 			
 		column: function(columNumber){
 			var col = [], i = 0, board = this.board, l = board.length;
@@ -14,7 +14,7 @@ var Game = function() {
 			return this.board[rowNumber];
 		},
 		
-		diagnolDown: function(){
+		diagnol1: function(){
 			var diagD = [], i = 0, board = this.board, l = board.length;
 			for ( i ; i < l; i++){
 				diagD.push(board[i][i]);
@@ -22,12 +22,46 @@ var Game = function() {
 			return diagD;
 		},
 
-		diagnolUp: function(){
+		diagnol2: function(){
 			var diagU = [], i = 0, board = this.board, l = board.length;
 			for ( i ; i < l; i++){
 				diagU.push(board[i][l-i-1]);
 			}
 			return diagU;
+		},
+
+		columns: function(){
+			var i = 0, board = this.board, l = board.length, columns = [];
+			for (var i = 0; i < l; i++) {
+				columns.push(this.column(i));
+			};
+			return columns;
+		},
+
+		rows: function(){
+			return this.board
+		},
+
+		diagnols: function(){
+			return [this.diagnol1(), this.diagnol2()]
+		},
+
+		all: function(){
+			var all = [], rows = this.rows(), columns = this.columns(), diagnols = this.diagnols() ;
+
+			rows.forEach(function(row){
+				all.push(row);
+			});
+
+			columns.forEach(function(column){
+				all.push(column);
+			});
+
+			diagnols.forEach(function(diagnol){
+				all.push(diagnol);
+			});
+
+			return all
 		}
 	}
 	
@@ -41,8 +75,8 @@ var Game = function() {
 	}
 
 	this.checkBoardForWinner = function(string, i){
-		if (this.canvas.diagnolUp().toString() == string ||
-				this.canvas.diagnolDown().toString() == string ||
+		if (this.canvas.diagnol2().toString() == string ||
+				this.canvas.diagnol1().toString() == string ||
 				this.canvas.row(i).toString() == string || 
 				this.canvas.column(i).toString() == string){
 			this.winner = string[0];
@@ -102,8 +136,7 @@ var Game = function() {
   }
 
   this.computerMarkBoard = function(){
-  	var emptyCells = this.emptyCells
-  	var id = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+  	var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   	if(id == undefined){
   		return false
   	} 
@@ -115,21 +148,36 @@ var Game = function() {
   	return id
   }
 
-  this.count = function(array, target){
-  	var i=0, l = array.length, count = 0, index = []
-
+  this.pathInfo = function(path){
+  	var i=0, l = path.length, info = {x: {count: 0, indices:[]}, o: {count: 0, indices:[]}, n: {count: 0, indices:[]}};
   	for (var i = 0; i < l; i++) {
-  		if(array[i] == target){
-  			count++
+  		if(path[i] == "X"){
+  			info.x.indices.push(i);
+  			info.x.count++;
+  		} else if(path[i] == "O"){
+  			info.o.indices.push(i);
+  			info.o.count++;
+  		} else {
+  			info.n.indices.push(i);
+  			info.n.count++;
   		}
   	}
-  	
+  	return info
+  }
+
+  this.pathsWorthBlocking = function(){
+  	return this.canvas.all().filter(function(path){
+  		var pathInfo = this.pathInfo(path)
+  		if (pathInfo.x.count == 2 && pathInfo.n.indices.length == 1){
+  			return path	
+  		}
+  	}.bind(this));
   }
 
   this.stompPlayer = function(){
-  	if (this.canvas.diagnolUp().toString() == string){
+  	if (this.count(this.canvas.diagnol2()) == string){
 
-  	} else if(this.canvas.diagnolDown().toString() == string){
+  	} else if(this.canvas.diagnol1().toString() == string){
 
   	}else if(this.canvas.row(i).toString() == string){
 
@@ -140,6 +188,9 @@ var Game = function() {
   }
 }
 
-game = new Game
+game = new Game;
+game.printBoard();
+console.log(game.pathsWorthBlocking());
+// console.log(game.pathsWorthBlocking());
 
 module.exports = game
