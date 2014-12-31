@@ -3,14 +3,10 @@
  */
 
 var React = require('react/addons');
-
 var Winner = require('./winner');
 var Restart = require('./restart');
 
-console.log(Restart);
-
 var GameOver = React.createClass({
-	
 	render: function() {
 		return(
 			<div className='container' id="gameOver">

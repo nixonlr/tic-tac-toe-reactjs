@@ -1,8 +1,8 @@
 var Game = function() {
 	this.canvas = {
-		board: [["X", null, "X"],
-						["O", null, null],
-						["X", null, "O"]],
+		board: [[null, null, null],
+						[null, null, null],
+						[null, null, null]],
 			
 		column: function(columNumber){
 			var col = [], i = 0, board = this.board, l = board.length;
@@ -128,11 +128,20 @@ var Game = function() {
 			var validMark = false;
 		}
 		
-  	return {pcId: this.computerMarkBoard(), playerId: validMark};
+  	return {pcId: this.pcMarkBoard(), playerId: validMark};
   }
 
-  this.computerMarkBoard = function(){
+  this.pcMarkBoard = function(){
   	var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  	var bestChoices = this.pcIdsToPick();
+  	console.log("bestChoices")
+  	console.log(bestChoices)
+
+  	if (bestChoices.length > 0){
+  		id = bestChoices[Math.floor(Math.random() * bestChoices.length)]
+  	}
+  	console.log("id")
+  	console.log(id)
   	if(id == undefined){
   		return false;
   	} 
@@ -211,8 +220,5 @@ var Game = function() {
 }
 
 game = new Game;
-game.printBoard();
-game.startGame();
-console.log(game.pcIdsToPick());
 
 module.exports = game
