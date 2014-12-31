@@ -127,8 +127,11 @@ var Game = function() {
 		} else{
 			var validMark = false;
 		}
+
+		if(validMark){
+	  	return {pcId: this.pcMarkBoard(), playerId: validMark};
+		}
 		
-  	return {pcId: this.pcMarkBoard(), playerId: validMark};
   }
 
   this.pcMarkBoard = function(){
