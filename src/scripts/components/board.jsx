@@ -28,24 +28,63 @@ var Board = React.createClass({
 			var outcome = this.props.game.markBoard(event.target.id);
 
 			outcome.gameOver = this.props.game.gameOver();
+			outcome.winner = this.props.game.winner
+			console.log(outcome.winner)
 			this.props.game.printBoard();
 			
-			if (outcome.gameOver && outcome.playerId){
-				console.log('in outcome.gameOver && outcome.playerId')
-				React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
-				React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
-			} else if(outcome.gameOver && outcome.pcId){
-				console.log('in outcome.gameOver && outcome.pcId')
-				React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
-				React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
-			} else {
-				if (outcome.playerId){
-					console.log('in outcome.playerId')
+			// if (outcome.gameOver && outcome.winner == "X"){
+			// 	console.log('in outcome.gameOver && outcome.playerId')
+			// 	React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+			// 	React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
+			// } else if(outcome.gameOver && outcome.winner == "O"){
+			// 	console.log('in outcome.gameOver && outcome.pcId')
+			// 	React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+			// 	React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+			// } else if(outcome.gameOver){
+			// 	if (out)
+			// 	React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+			// 	React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+			// 	React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
+			// }else {
+			// 	if (outcome.playerId){
+			// 		console.log('in outcome.playerId')
+			// 		React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+			// 	} 
+			// 	if (outcome.pcId){
+			// 		console.log('in outcome.pcId')
+			// 		React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+			// 	}
+			// }
+			if (outcome.gameOver){
+				if(outcome.winner == 'X'){
 					React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+					React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
+					console.log('Over, in winner = x')
+				}else if(outcome.winner == 'O'){
+					if(outcome.playerId){
+						React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+					}
+					React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+					React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
+					console.log('Over, in winner = x')
+				}else{
+					if(outcome.playerId){
+						React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+					}
+					if(outcome.pcId){
+						React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+					}
+					React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
+					console.log("maybe there's an error")
+				}
+			}else {
+				if (outcome.playerId){
+					React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+					console.log('Games not over, in outcome.playerId')
 				} 
 				if (outcome.pcId){
-					console.log('in outcome.pcId')
 					React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+					console.log('Games not over, in outcome.pcId')
 				}
 			}
 

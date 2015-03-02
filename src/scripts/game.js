@@ -112,7 +112,7 @@ var Game = function() {
   }
   this.playerMarkBoard = function(id){
   	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
-  	
+
   	if(!this.gameOver() && this.canvas.board[cell.row][cell.column] == null){
 	  	var index = this.emptyCells.indexOf(id);
   		this.canvas.board[cell.row][cell.column]= "X";
@@ -139,6 +139,7 @@ var Game = function() {
 
 	  	this.canvas.board[cell.row][cell.column] = "O";
 	  	this.emptyCells.splice(index, 1);
+	  	console.log(id)
 	  	return id;
 	  } else {
 	  	return false;
