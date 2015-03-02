@@ -9,6 +9,7 @@ var Restart = React.createClass({
 	restartHandler: function(){
 		this.props.gameInfo.game.restart();
 		React.unmountComponentAtNode(document.getElementById("content"));
+		React.unmountComponentAtNode(document.getElementById("winnerIs"));
 		React.renderComponent(<this.props.gameInfo.board game={this.props.gameInfo.game}/>, document.getElementById('content'));
 	},
 

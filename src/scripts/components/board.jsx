@@ -30,17 +30,25 @@ var Board = React.createClass({
 			outcome.gameOver = this.props.game.gameOver();
 			this.props.game.printBoard();
 			
-			if (outcome.gameOver){
-				React.unmountComponentAtNode(document.getElementById("content"));
-				React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('content'));
+			if (outcome.gameOver && outcome.playerId){
+				console.log('in outcome.gameOver && outcome.playerId')
+				React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
+				React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
+			} else if(outcome.gameOver && outcome.pcId){
+				console.log('in outcome.gameOver && outcome.pcId')
+				React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+				React.renderComponent(<GameOver gameInfo={{game:this.props.game, board:Board}} />, document.getElementById('winnerIs'));
 			} else {
 				if (outcome.playerId){
+					console.log('in outcome.playerId')
 					React.renderComponent(<Mark mark="X"/>, document.getElementById(outcome.playerId));
-				}
-				if (outcome.pcId){
-					React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
 				} 
+				if (outcome.pcId){
+					console.log('in outcome.pcId')
+					React.renderComponent(<Mark mark="O"/>, document.getElementById(outcome.pcId));
+				}
 			}
+
 		}
 	},
 
