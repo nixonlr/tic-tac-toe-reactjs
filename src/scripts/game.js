@@ -11,27 +11,7 @@ var Game = function() {
 			}
 			return col;
 		},
-
-		row: function(rowNumber){
-			return this.board[rowNumber];
-		},
-
-		diagnol1: function(){
-			var diagD = [], i = 0, board = this.board, l = board.length;
-			for ( i ; i < l; i++){
-				diagD.push(board[i][i]);
-			}
-			return diagD;
-		},
-
-		diagnol2: function(){
-			var diagU = [], i = 0, board = this.board, l = board.length;
-			for ( i ; i < l; i++){
-				diagU.push(board[i][l-i-1]);
-			}
-			return diagU;
-		},
-
+		
 		columns: function(){
 			var i = 0, board = this.board, l = board.length, columns = [];
 			for (var i = 0; i < l; i++) {
@@ -40,46 +20,44 @@ var Game = function() {
 			return columns;
 		},
 
+		row: function(rowNumber){
+			return this.board[rowNumber];
+		},
+
 		rows: function(){
 			return this.board;
 		},
 
-		diagnols: function(){
-			return [this.diagnol1(), this.diagnol2()];
+		diaganol1: function(){
+			var diaganol = [], i = 0, board = this.board, l = board.length;
+			for ( i ; i < l; i++){
+				diaganol.push(board[i][i]);
+			}
+			return diaganol;
 		},
 
-		all: function(){
-			var all = [], rows = this.rows(), columns = this.columns(), diagnols = this.diagnols();
-
-			rows.forEach(function(row){
-				all.push(row);
-			});
-
-			columns.forEach(function(column){
-				all.push(column);
-			});
-
-			diagnols.forEach(function(diagnol){
-				all.push(diagnol);
-			});
-
-			return all;
+		diaganol2: function(){
+			var diaganol = [], i = 0, board = this.board, l = board.length;
+			for ( i ; i < l; i++){
+				diaganol.push(board[i][l-i-1]);
+			}
+			return diaganol;
 		}
 	}
 	
 	this.winner = "No One";
-	
 	this.emptyCells = [];
-
-	this.startGame = function(){
-		this.getIdsOfEmptyCells();
-	}
 
 	this.pcStartId = function() {
 		var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)], index = emptyCells.indexOf(id);
 		this.emptyCells.splice(index, 1);
 		return id
 	}
+
+	this.startGame = function(){
+		this.getIdsOfEmptyCells();
+	}
+
 
 	this.getIdsOfEmptyCells = function(){
 		var r = 0, board = this.canvas.board, l = board.length;
@@ -109,8 +87,8 @@ var Game = function() {
 	}
 	
 	this.checkBoardForWinner = function(string, i){
-		if (this.canvas.diagnol2().toString() == string ||
-				this.canvas.diagnol1().toString() == string ||
+		if (this.canvas.diaganol2().toString() == string ||
+				this.canvas.diaganol1().toString() == string ||
 				this.canvas.row(i).toString() == string || 
 				this.canvas.column(i).toString() == string){
 			this.winner = string[0];
@@ -172,7 +150,7 @@ var Game = function() {
 
 			if ((rowInfo.x.count == 2 && rowInfo.n.indices.length == 1) || 
 					(colInfo.x.count == 2 && colInfo.n.indices.length == 1) ||
-					this.checkDiagnols(id)){
+					this.checkDiaganols(id)){
   			return id;
   		}
 
@@ -196,18 +174,18 @@ var Game = function() {
   	return info;
   }
   
-  this.checkDiagnols = function(id){
+  this.checkDiaganols = function(id){
   	if (id == "00" || id == "22"){
-  		var diagnol1Info = this.pathInfo(this.canvas.diagnol1());
-  		return (diagnol1Info.x.count == 2 && diagnol1Info.n.indices.length == 1);
+  		var diaganol1Info = this.pathInfo(this.canvas.diaganol1());
+  		return (diaganol1Info.x.count == 2 && diaganol1Info.n.indices.length == 1);
   	} else if(id == "02" || id == "20"){
-  		var diagnol2Info = this.pathInfo(this.canvas.diagnol2());
-  		return (diagnol2Info.x.count == 2 && diagnol2Info.n.indices.length == 1);
+  		var diaganol2Info = this.pathInfo(this.canvas.diaganol2());
+  		return (diaganol2Info.x.count == 2 && diaganol2Info.n.indices.length == 1);
   	} else if(id == "11"){
-  		var diagnol1Info = this.pathInfo(this.canvas.diagnol1());
-			var diagnol2Info = this.pathInfo(this.canvas.diagnol2());
-			return (diagnol1Info.x.count == 2 && diagnol1Info.n.indices.length == 1) || 
-						 (diagnol2Info.x.count == 2 && diagnol2Info.n.indices.length == 1);
+  		var diaganol1Info = this.pathInfo(this.canvas.diaganol1());
+			var diaganol2Info = this.pathInfo(this.canvas.diaganol2());
+			return (diaganol1Info.x.count == 2 && diaganol1Info.n.indices.length == 1) || 
+						 (diaganol2Info.x.count == 2 && diaganol2Info.n.indices.length == 1);
   	}
   }
 
