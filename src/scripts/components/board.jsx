@@ -25,7 +25,7 @@ var Board = React.createClass({
 
 	handleClick: function(event){
 		if (this.started){
-			var outcome = this.props.game.markBoard(event.target.id, "X");
+			var outcome = this.props.game.markBoard(event.target.id);
 
 			outcome.gameOver = this.props.game.gameOver();
 			this.props.game.printBoard();

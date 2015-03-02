@@ -102,45 +102,47 @@ var Game = function() {
 		this.emptyCells = [];
 	}
 	
-  this.markBoard = function(id, mark){
-  	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}, emptyCells = this.emptyCells, index = emptyCells.indexOf(id), validMark = id;
+  this.markBoard = function(id){
+		playerId = this.playerMarkBoard(id);
 
-  	if(this.canvas.board[cell.row][cell.column] == null){
-  		this.canvas.board[cell.row][cell.column]= mark;
-			this.emptyCells.splice(index, 1);
-		} else{
-			var validMark = false;
-		}
-
-		if(validMark){
-	  	return {pcId: this.pcMarkBoard(), playerId: validMark};
+		if(playerId){
+	  	return {pcId: this.pcMarkBoard(), playerId: playerId};
 		}
 		
   }
-  this.humanMarkBoard = function(){
+  this.playerMarkBoard = function(id){
+  	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
   	
+  	if(!this.gameOver() && this.canvas.board[cell.row][cell.column] == null){
+	  	var index = this.emptyCells.indexOf(id);
+  		this.canvas.board[cell.row][cell.column]= "X";
+			this.emptyCells.splice(index, 1);
+			return id;
+		} else {
+			return false;
+		}
   }
 
   this.pcMarkBoard = function(){
-  	var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-  	var bestChoices = this.pcIdsToPick();
-  	console.log("bestChoices")
-  	console.log(bestChoices)
+  	if(!this.gameOver()){
+	  	var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+	  	var bestChoices = this.pcIdsToPick();
 
-  	if (bestChoices.length > 0){
-  		id = bestChoices[Math.floor(Math.random() * bestChoices.length)]
-  	}
-  	console.log("id")
-  	console.log(id)
-  	if(id == undefined){
-  		return false;
-  	} 
-  	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
-  	var index = emptyCells.indexOf(id);
+	  	if (bestChoices.length > 0){
+	  		id = bestChoices[Math.floor(Math.random() * bestChoices.length)]
+	  	}
+	  	if(id == undefined){
+	  		return false;
+	  	} 
+	  	var cell = {row: parseInt(id[0]), column: parseInt(id[1])}
+	  	var index = emptyCells.indexOf(id);
 
-  	this.canvas.board[cell.row][cell.column] = "O";
-  	this.emptyCells.splice(index, 1);
-  	return id;
+	  	this.canvas.board[cell.row][cell.column] = "O";
+	  	this.emptyCells.splice(index, 1);
+	  	return id;
+	  } else {
+	  	return false;
+	  }
   }
 
   this.pcIdsToPick = function(){
