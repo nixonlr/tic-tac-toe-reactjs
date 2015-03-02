@@ -117,6 +117,9 @@ var Game = function() {
 		}
 		
   }
+  this.humanMarkBoard = function(){
+  	
+  }
 
   this.pcMarkBoard = function(){
   	var emptyCells = this.emptyCells, id = emptyCells[Math.floor(Math.random() * emptyCells.length)];
