@@ -46,7 +46,11 @@ p, h3{
   color: white;
 }
 
+tr{
+  height: 50px;
+}
 
-/*tr td.narrow {
-  width: 90px;
-}*/
+td{
+  width: 60px;
+}
+
